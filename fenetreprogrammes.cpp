@@ -1,5 +1,6 @@
 #include "fenetreprogrammes.h"
 #include "manager.h"
+#include "controleur.h"
 #include <QSqlDatabase>
 #include <QtSql>
 #include <QSqlQuery>
@@ -243,8 +244,8 @@ void FenetreProgrammes::validerValeur()
         QString idVar = this->passageValeurs->text();
 
         // MISE A JOUR DE LA BASE DE DONNEES
-        if(!query.exec("UPDATE programmes SET valeur = '" + valVar + "' WHERE id = '" + idVar +  "'"))
-          qWarning() << "ERROR: " << query.lastError().text();
+        //if(!query.exec("UPDATE programmes SET valeur = '" + valVar + "' WHERE id = '" + idVar +  "'"))
+          //qWarning() << "ERROR: " << query.lastError().text();
 
         // RECUPERATION DU NOM
         if(!query.exec("Select nom FROM programmes WHERE id = '" + idVar +  "'"))
@@ -253,6 +254,10 @@ void FenetreProgrammes::validerValeur()
         if(query.first())
         {
             QString nomVar = query.value(0).toString();
+
+            Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
+            QString s = "'"+ nomVar +"' "+valVar+" STO";
+            Controleur::donneInstance().exec(s.toUtf8().constData());
 
             this->infoUtilisateur->setText("Le sous-programme " + nomVar + " a bien été modifié.");
             this->champ->clear();
@@ -298,12 +303,14 @@ void FenetreProgrammes::supprimerVariable()
         }
         else
         {
+            Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
+            /*
             query.prepare("DELETE FROM programmes WHERE nom = ?");
             query.addBindValue(nomVar);
 
             if(!query.exec())
               qWarning() << "ERROR: " << query.lastError().text();
-
+            */
             this->infoUtilisateur->setText("Le sous-programme " + nomVar + " a bien été supprimé.");
             this->champ->clear();
             this->champ->setFocus();

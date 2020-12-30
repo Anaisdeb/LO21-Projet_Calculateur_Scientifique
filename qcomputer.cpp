@@ -89,6 +89,5 @@ void addDatabaseToManager()
     if(!query.exec("delete from variables"))
         qWarning() << "ERROR: " << query.lastError().text();
 
-    QMessageBox::information(FenetreCalculatrice::donneInstance(), "test", strcommande);
     Controleur::donneInstance().exec(strcommande.toUtf8().constData());
 }

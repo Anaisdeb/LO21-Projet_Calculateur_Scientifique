@@ -1,5 +1,7 @@
 #include "fenetrevariables.h"
 #include <QSqlDatabase>
+#include "manager.h"
+#include "controleur.h"
 #include <QtSql>
 #include <QSqlQuery>
 #include <QVector>
@@ -246,8 +248,8 @@ void FenetreVariables::validerValeur()
         QString idVar = this->passageValeurs->text();
 
         // MISE A JOUR DE LA BASE DE DONNEES
-        if(!query.exec("UPDATE variables SET valeur = '" + valVar + "' WHERE id = '" + idVar +  "'"))
-          qWarning() << "ERROR: " << query.lastError().text();
+        //if(!query.exec("UPDATE variables SET valeur = '" + valVar + "' WHERE id = '" + idVar +  "'"))
+          //qWarning() << "ERROR: " << query.lastError().text();
 
         // RECUPERATION DU NOM
         if(!query.exec("Select nom FROM variables WHERE id = '" + idVar +  "'"))
@@ -256,6 +258,10 @@ void FenetreVariables::validerValeur()
         if(query.first())
         {
             QString nomVar = query.value(0).toString();
+
+            Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
+            QString s = "'"+ nomVar +"' "+valVar+" STO";
+            Controleur::donneInstance().exec(s.toUtf8().constData());
 
             this->infoUtilisateur->setText("La variable " + nomVar + " a bien été modifiée.");
             this->champ->clear();
@@ -301,11 +307,15 @@ void FenetreVariables::supprimerVariable()
         }
         else
         {
+            /*
             query.prepare("DELETE FROM variables WHERE nom = ?");
             query.addBindValue(nomVar);
 
             if(!query.exec())
               qWarning() << "ERROR: " << query.lastError().text();
+
+            */
+            Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
 
             this->infoUtilisateur->setText("La variable " + nomVar + " a bien été supprimée.");
             this->champ->clear();

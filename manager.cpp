@@ -68,7 +68,7 @@ void Manager::AddAtome(std::shared_ptr<LittExpression> nom, std::shared_ptr<Litt
 }
 
 void Manager::ForgetAtome(std::string atome){
-    //suppression dans la bdd
+
     if (isAtome(atome))
     {
         atomeManager.erase(atome);
@@ -76,12 +76,18 @@ void Manager::ForgetAtome(std::string atome){
         QSqlQuery query;
 
         // SUPPRESSION D'UNE VARIABLE
-        QMessageBox::information(FenetreVariables::donneInstance(), "test", "delete from variables where nom = " + QString::fromStdString(atome));
-        if(!query.exec("delete from variables where nom = '" + QString::fromStdString(atome)) + "'")
+        QString s = QString::fromStdString(atome);
+
+        if(!query.exec("delete from programmes where nom = '" + s + "'"))
+            qWarning() << "Manager::ForgetAtome - ERREUR : " << query.lastError().text();
+
+        if(!query.exec("delete from variables where nom = '" + s + "'"))
             qWarning() << "Manager::ForgetAtome - ERREUR : " << query.lastError().text();
         // SUPPRESSION D'UN PROGRAMME
-        if(!query.exec("delete from programmes where nom = '" + QString::fromStdString(atome))+"'")
-            qWarning() << "Manager::ForgetAtome - ERREUR : " << query.lastError().text();
+
+
+        FenetreVariables::donneInstance()->updateTab();
+        FenetreProgrammes::donneInstance()->updateTab();
     }
 };
 

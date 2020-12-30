@@ -177,9 +177,10 @@ void FenetreCalculatrice::clickOperateur() {
 }
 
 void FenetreCalculatrice::clickClear() {
-    while (Controleur::donneInstance().pile.estVide()) {
-        Controleur::donneInstance().pile.pop();
-    }
+    QPushButton* button = qobject_cast<QPushButton*>(sender());
+    commande->setText(commande->text() + button->text());
+    commande->setFocus();
+
 }
 
 void FenetreCalculatrice::clickUndo() {
