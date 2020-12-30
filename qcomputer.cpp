@@ -89,5 +89,7 @@ void addDatabaseToManager()
     if(!query.exec("delete from variables"))
         qWarning() << "ERROR: " << query.lastError().text();
 
+    //QObject::connect(this, SIGNAL())
+
     Controleur::donneInstance().exec(strcommande.toUtf8().constData());
 }

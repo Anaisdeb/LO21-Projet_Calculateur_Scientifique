@@ -184,18 +184,15 @@ void FenetreCalculatrice::clickClear() {
 }
 
 void FenetreCalculatrice::clickUndo() {
-    if (controleur->pile.estVide()) throw ProjetException("La pile est vide.");
-    auto save = controleur->pile.top();
-    controleur->pile.pop();
-    // if (pile->estVide()) throw exception;
-    //Expression& save = pile->top();
-    //pop();
-    refresh();
+    QPushButton* button = qobject_cast<QPushButton*>(sender());
+    commande->setText(commande->text() + button->text());
+    commande->setFocus();
 }
 
 void FenetreCalculatrice::clickRedo() {
-    // pile->push(save);
-        refresh();
+    QPushButton* button = qobject_cast<QPushButton*>(sender());
+    commande->setText(commande->text() + button->text());
+    commande->setFocus();
 }
 
 // marche pas

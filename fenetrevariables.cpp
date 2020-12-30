@@ -1,4 +1,6 @@
 #include "fenetrevariables.h"
+#include "fenetrecalculatrice.h"
+#include "projetexception.h"
 #include <QSqlDatabase>
 #include "manager.h"
 #include "controleur.h"
@@ -259,9 +261,14 @@ void FenetreVariables::validerValeur()
         {
             QString nomVar = query.value(0).toString();
 
-            Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
-            QString s = "'"+ nomVar +"' "+valVar+" STO";
-            Controleur::donneInstance().exec(s.toUtf8().constData());
+
+            try {
+                Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
+                QString s = "'"+ nomVar +"' "+valVar+" STO";
+                Controleur::donneInstance().exec(s.toUtf8().constData());
+            } catch (ProjetException& e) {
+                infoUtilisateur->setText(e.what());
+            }
 
             this->infoUtilisateur->setText("La variable " + nomVar + " a bien été modifiée.");
             this->champ->clear();

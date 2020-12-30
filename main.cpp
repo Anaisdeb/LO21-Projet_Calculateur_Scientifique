@@ -107,10 +107,5 @@ int main(int argc, char* argv[])
 * @return : (valeur de retour) Agenda&, une référence vers l'agenda courant (this)
 */
 
-/*
- *
- * terminate called after throwing an instance of 'ProjetException'
-  what():  Operande invalide
 
-  */
 
