@@ -41,7 +41,7 @@ void LittRationnelle::simplifier(){
     }
     // on divise le numerateur et le denominateur par le PGCD=a
     num/=a; den/=a;
-    // si le denominateur est négatif, on fait passer le signe - au numérateur
+    // si le denominateur est négatif, on fait passer le signe - au numérateur
     if (den<0) { den=-den; num=-num; }
 }
 
@@ -335,8 +335,8 @@ std::shared_ptr<LittNumerique> LittEntiere::operator/(LittNumerique& l){
             return result;
         }
         else if (ent !=0){
-            auto temp= LittReelle(this->getParam() / ent->getParam());
-            return FabriqueLitterale::donneInstance().makeLitterale(temp.getParam());
+            auto temp= LittRationnelle(this->getParam(), ent->getParam());
+            return FabriqueLitterale::donneInstance().makeLitterale(temp.getNumerateur(), temp.getDenominateur());
         }
         else if (ree !=0){
             auto temp= LittReelle(this->getParam() / ree->getParam());
