@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include <memory>
-#include "litterale.h" //Permet l'héritage de Operande
+#include "litterale.h"
 #include "operation.h"
 
 /**
@@ -45,7 +45,7 @@ public :
 
     /**
     * @brief Accesseur pour operation.
-    * @return  pointeur sur Operation.
+    * @return Pointeur sur Operation.
     */
     const std::shared_ptr<Operation> getOperation() { return operation; }
 

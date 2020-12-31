@@ -19,7 +19,7 @@ class Donnees; //Donnees.h
 
 /**
   \brief Singleton chargé du management des opérateurs (déclaration, accès) et l'attribution des opérations.
-  \details L'objet OperatorManager contient des objets Operateur.
+  \details L'objet OperateurManager contient des objets Operateur.
  */
 
 class OperateursManager {
@@ -63,12 +63,6 @@ public:
      * @return Référence constante sur un shared_ptr sur Operateur.
      */
     const std::shared_ptr<Operateur> getOperateur(std::string symbole) const;
-
-    /**
-     * @brief Accesseur pour evalOperateur.
-     * @return Pointeur sur Operateur représentant l'opérateur d'évaluation de programme : EVAL.
-     */
-    const std::shared_ptr<Operateur> getEvalOperateur() const { return evalOperateur; }
 
     /**
      * @brief Renvoie si une expression est un opérateur ou non.
