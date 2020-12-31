@@ -16,7 +16,6 @@ SOURCES += \
     operateursmanager.cpp \
     operation.cpp \
     parse.cpp \
-    projetexception.cpp \
     qcomputer.cpp \
     fenetrecalculatrice.cpp \
     computer.cpp
