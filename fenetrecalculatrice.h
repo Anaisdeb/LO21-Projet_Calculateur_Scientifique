@@ -1,7 +1,6 @@
 #ifndef FENETRECALCULATRICE_H
 #define FENETRECALCULATRICE_H
 
-#include "computer.h"
 #include "claviernumerique.h"
 #include "claviervariables.h"
 #include "controleur.h"
@@ -48,37 +47,6 @@ protected:
 public:
     static FenetreCalculatrice* donneInstance();
     static void libereInstance();
-    //void keyPressEvent(QKeyEvent *event);
-       /*void clickMod();
-       void clickDiv();
-       void clickNeg();
-       void clickNum();
-       void clickDen();
-       void clickPow();
-       void clickSin();
-       void clickCos();
-       void clickTan();
-       void clickArcsin();
-       void clickArccos();
-       void clickArctan();
-       void clickSqrt();
-       void clickExp();
-       void clickLn();
-       void clickEgal();
-       void clickNotegal();
-       void clickInfegal();
-       void clickSupegal();
-       void clickInf();
-       void clickSup();
-       void clickEt();
-       void clickOu();
-       void clickNon();
-       void clickDup();
-       void clickDrop();
-       void clickSwap();
-       void clickIft();
-       void clickIfte();
-       void clickTantque();*/
 
 public slots:
     void majPile(int);
@@ -89,8 +57,7 @@ public slots:
     void clickClear();
     void clickUndo();
     void clickRedo();
-    void clickOpUnaire();
-    void clickOpBinaire();
+    void clickOp();
     void majException(const std::string s);
 
 };
