@@ -8,8 +8,8 @@ class ClavierVariables : public QWidget {
     Q_OBJECT
 
     QGridLayout* varLayout;
-       unsigned int *ver = new unsigned int(6);
-       unsigned int *hor = new unsigned int(3);
+       unsigned int *ver = new unsigned int(3);
+       unsigned int *hor = new unsigned int(1);
 
 public:
     ClavierVariables(QWidget* parent = nullptr);
