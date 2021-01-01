@@ -19,7 +19,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) + (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
       }
  }
 
@@ -30,7 +30,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return {op1};
      }
      else {
-         throw ProjetException("Type invalide pour l'operation demandÈe");
+         throw ProjetException("Type invalide pour l'operation demandée");
      }
  }
 
@@ -41,7 +41,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) * (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -52,7 +52,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) - (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -63,7 +63,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) / (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -74,7 +74,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) / (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -85,7 +85,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1).mod(*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -98,7 +98,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) == (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -109,7 +109,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) != (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -120,7 +120,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) <= (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opÈration demandée");
      }
  }
 
@@ -131,7 +131,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) >= (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -142,7 +142,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) < (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -153,7 +153,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1) > (*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -164,7 +164,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1).AND(*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -175,7 +175,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1).OR(*op2) };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
@@ -185,11 +185,11 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
          return { (*op1).NOT() };
      }
      else {
-         throw ProjetException("Type invalide pour l'opÈration demandÈe");
+         throw ProjetException("Type invalide pour l'opération demandée");
      }
  }
 
-/*-----------------OpÈrateurs programmes-----------------*/
+/*-----------------Opérateurs programmes-----------------*/
 
  Operation::Operandes StoOperation::eval(Operation::Operandes dn) const {
  auto op1 = std::dynamic_pointer_cast<LittExpression>(dn.front());
@@ -199,7 +199,7 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
      return { nullptr };
  }
  else {
-     throw ProjetException("Type invalide pour l'opÈration demandÈe");
+     throw ProjetException("Type invalide pour l'opération demandée");
  }
 }
 
@@ -210,11 +210,11 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
      return { nullptr };
  }
  else {
-     throw ProjetException("Type invalide pour l'opÈration demandÈe");
+     throw ProjetException("Type invalide pour l'opération demandée");
  }
 }
 
-/*-----------------OpÈrateurs de Manipulation de la pile-----------------*/
+/*-----------------Opérateurs de Manipulation de la pile-----------------*/
 
  Operation::Operandes DupOperation::eval(Operation::Operandes dn) const {
  //le dernier ÈlÈment empilÈ est dÈpilÈ, on empile deux fois cette ÈlÈment donc on retourne deux fois la donnÈe.
@@ -246,12 +246,12 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
     op1->eval();
  }
  else {
-     throw ProjetException("L'expression ne peut pas Ítre ÈvaluÈe");
+     throw ProjetException("L'expression ne peut pas être évaluée");
  }
  return { nullptr };
 }
 
-/*-----------------OpÈrateurs Conditionnels et de Boucle-----------------*/
+/*-----------------Opérateurs Conditionnels et de Boucle-----------------*/
 
  Operation::Operandes IFT::eval(Operation::Operandes dn) const {
  auto prog = std::dynamic_pointer_cast<Litterale>(dn.back());
@@ -260,5 +260,5 @@ Operation::Operandes PlusOperation::eval(Operation::Operandes dn) const {
      if (test->getParam() != 0) prog->eval(); //Premier argument = true, on provoque l'Èvaluation du deuxiËme
      return { nullptr };
  }
- throw ProjetException("Le premier argument ne peut pas Ítre interprÈtÈ comme un boolÈen entier");
+ throw ProjetException("Le premier argument ne peut pas être interprété comme un booléen entier");
 }
