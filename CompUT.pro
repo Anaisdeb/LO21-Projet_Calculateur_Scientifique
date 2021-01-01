@@ -17,8 +17,7 @@ SOURCES += \
     operation.cpp \
     parse.cpp \
     qcomputer.cpp \
-    fenetrecalculatrice.cpp \
-    computer.cpp
+    fenetrecalculatrice.cpp
 
 HEADERS += \
     claviernumerique.h \
@@ -37,7 +36,6 @@ HEADERS += \
     parse.h \
     projetexception.h \
     qcomputer.h \
-    fenetrecalculatrice.h \
-    computer.h
+    fenetrecalculatrice.h
 
 FORMS +=
