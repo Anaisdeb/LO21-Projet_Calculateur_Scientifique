@@ -5,11 +5,18 @@
 #include <QGridLayout>
 #include <QMessageBox> // pr test
 
-ClavierNumerique::ClavierNumerique(QWidget* parent) : QWidget(parent) {
-    QVBoxLayout* mainLayout = new QVBoxLayout;
+// =============== CONSTRUCTEUR ===============
 
+ClavierNumerique::ClavierNumerique(QWidget* parent) : QWidget(parent) {
+    // LAYOUT
+    QVBoxLayout* mainLayout = new QVBoxLayout;
+    QGridLayout* numLayout = new QGridLayout();
+
+    // QGROUPBOX
     QGroupBox* groupnum = new QGroupBox("Clavier 2");
+    // QPUSHBUTTON
     QPushButton* b1 = new QPushButton("1");
+    // CONNEXION SIGNAUX/SLOTS
     connect(b1, SIGNAL(clicked()), parent, SLOT(clickChiffre()));
     QPushButton* b2 = new QPushButton("2");
     connect(b2, SIGNAL(clicked()), parent, SLOT(clickChiffre()));
@@ -36,25 +43,24 @@ ClavierNumerique::ClavierNumerique(QWidget* parent) : QWidget(parent) {
     QPushButton* clear = new QPushButton("CLEAR");
     connect(clear, SIGNAL(clicked()), parent, SLOT(clickClear()));
     QPushButton* div = new QPushButton("DIV");
-    connect(div, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(div, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* mod = new QPushButton("MOD");
-    connect(mod, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(mod, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* neg = new QPushButton("NEG");
-    connect(neg, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(neg, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* eval = new QPushButton("EVAL");
-    connect(eval, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(eval, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* bPlus = new QPushButton("+");
-    connect(bPlus, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(bPlus, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* bMoins = new QPushButton("-");
-    connect(bMoins, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(bMoins, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* bEtoile = new QPushButton("*");
-    connect(bEtoile, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(bEtoile, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* bSlash = new QPushButton("/");
-    connect(bSlash, SIGNAL(clicked()), parent, SLOT(clickOp()));
+    connect(bSlash, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* point = new QPushButton(".");
     connect(point, SIGNAL(clicked()), parent, SLOT(clickChiffre()));
 
-    QGridLayout* numLayout = new QGridLayout();
     numLayout->addWidget(b7, 0, 0);
     numLayout->addWidget(b8, 0, 1);
     numLayout->addWidget(b9, 0, 2);
@@ -83,11 +89,15 @@ ClavierNumerique::ClavierNumerique(QWidget* parent) : QWidget(parent) {
     this->setLayout(mainLayout);
 }
 
+// =============== PUBLIC SLOTS ===============
+
 void ClavierNumerique::minimize2(int state) {
     if (state) {
-        this->setVisible(false);
+        // ETAT DU CLAVIER VISIBLE
+        this->setVisible(false); // on masque le clavier
     } else {
-        this->setVisible(true);
+        // ETAT DU CLAVIER MASQUE
+        this->setVisible(true); // on rend le clavier visible
     }
 }
 

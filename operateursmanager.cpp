@@ -34,7 +34,7 @@ OperateursManager::OperateursManager(){
     operateurs.push_back(std::make_shared<Operateur>("OR", 2, std::make_shared<OuLogique>())); //OU Logique
     operateurs.push_back(std::make_shared<Operateur>("NOT", 1, std::make_shared<NonLogique>())); //NON Logique
 
-    operateurs.push_back(std::make_shared<Operateur>("EVAL", 1, std::make_shared<Eval>()); //Evaluation de littérale);
+    operateurs.push_back(std::make_shared<Operateur>("EVAL", 1, std::make_shared<Eval>())); //Evaluation de littérale);
     operateurs.push_back(std::make_shared<Operateur>("IFT", 2, std::make_shared<IFT>())); //Condition binaire
 
     //Création des opérateurs d'identifieurs

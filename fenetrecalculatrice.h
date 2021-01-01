@@ -17,7 +17,7 @@
 
 class ClavierNumerique;
 
-class FenetreCalculatrice : public QWidget{
+class FenetreCalculatrice : public QWidget {
     Q_OBJECT
 
 private:
@@ -31,33 +31,52 @@ private:
     FenetreCalculatrice& operator=(const FenetreCalculatrice&) = delete;
     static FenetreCalculatrice* uniqueInstance;
 
+    // WIDGETS
     QLineEdit* message;
     QVBoxLayout * mainLayout;
-    //Pile* pile;
     QTableWidget* vuePile;
     QLineEdit* commande;
     Controleur* controleur;
     ClavierNumerique* clavier2;
     ClavierVariables* clavier1;
-    //Expression save(int v); // jsp
 
 protected:
+    /**
+    * @brief : Filtre la ligne de commande
+    * @param : (QObject*, QEvent*) Objet parent, Click sur une touche du clavier ordinateur
+    * @return : (bool) TRUE si le click a ete filtré, FALSE sinon
+    */
     bool eventFilter(QObject* object, QEvent *event) override;
 
 public:
+
     static FenetreCalculatrice* donneInstance();
     static void libereInstance();
 
 public slots:
     void majPile(int);
+    /**
+    * @brief : Mise à jour de l'affichage de la pile sur vuePile
+    */
     void refresh();
+    /**
+    * @brief : Envoie la ligne de commande au controleur
+    */
     void getNextCommande();
+    /**
+    * @brief : Appui sur un bouton chiffre (1, 2, ..., 9, 0)
+    */
     void clickChiffre();
+    /**
+    * @brief : Appui sur un bouton opérateur (*, DUP, SWAP, =, ...)
+    */
     void clickOperateur();
+    /**
+    * @brief : Vide tous les éléments de la pile
+    */
     void clickClear();
     void clickUndo();
     void clickRedo();
-    void clickOp();
     void majException(const std::string s);
 
 };

@@ -9,7 +9,12 @@ class ClavierNumerique : public QWidget {
 
 public:
     ClavierNumerique(QWidget* parent = nullptr);
+
 public slots:
+    /**
+    * @brief : Masquer le clavier numérique
+    * @param : (int) Etat du clavier
+    */
     void minimize2(int state);
 };
 

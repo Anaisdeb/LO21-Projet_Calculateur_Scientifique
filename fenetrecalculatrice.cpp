@@ -132,27 +132,27 @@ void FenetreCalculatrice::majPile(int n)
 }
 
 void FenetreCalculatrice::refresh() {
-    std::vector<std::shared_ptr<Operande>>::const_iterator it = controleur->pile.end();
+    std::vector<std::shared_ptr<Operande>>::const_iterator it = controleur->pile.end(); // iterateur sur le dernier élément de la pile
     for (unsigned int i = 0; i < FenetreParametres::getNbLignesPiles(); i++) {
         QTableWidgetItem* item;
         if (it !=controleur->pile.begin()) {
             --it;
-            item = new QTableWidgetItem(QString::fromStdString((*it)->toString()));
+            item = new QTableWidgetItem(QString::fromStdString((*it)->toString())); // on crée un QTableWidgetItem contenant l'élément
         } else {
             item = new QTableWidgetItem("");
         }
-            vuePile->setItem(static_cast<int>(i), 0, item);
+            vuePile->setItem(static_cast<int>(i), 0, item); // on affiche l'élément dans vuePile
     }
-    message->setText(controleur->pile.getMessage());
+    message->setText(controleur->pile.getMessage()); // on affiche le message s'il y en a un
 }
 
 void FenetreCalculatrice::getNextCommande() {
     try
     {
         controleur->pile.setMessage("");
-        std::string sList = (commande->text()).toStdString();
-        controleur->exec(sList);
-        commande->clear();
+        std::string sList = (commande->text()).toStdString(); // on récupere la ligne de commande
+        controleur->exec(sList); // on l'éxécute
+        commande->clear(); // on vide la ligne de commande
         refresh();
         return;
     }
@@ -165,25 +165,26 @@ void FenetreCalculatrice::getNextCommande() {
 
 void FenetreCalculatrice::clickChiffre() {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
+    commande->setText(commande->text() + button->text()); // on affiche le texte du bouton cliqué sur la ligne de commande
     commande->setFocus();
 }
 
 void FenetreCalculatrice::clickOperateur() {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
+    commande->setText(commande->text() + button->text()); // on affiche le texte du bouton cliqué sur la ligne de commande
     commande->setFocus();
-    getNextCommande();
-    refresh();
+    getNextCommande(); // on exécute la ligne de commande
+    refresh(); // on met a jour l'affichage de la pile
 }
 
 void FenetreCalculatrice::clickClear() {
     if (!controleur->pile.estVide()) {
         while (!controleur->pile.estVide()) {
-            controleur->pile.pop();
+            controleur->pile.pop(); // on dépile la pile tant qu'elle n'est pas vide
         }
+        refresh();
     } else {
-            message->setText("La pile est vide.");
+        message->setText("La pile est vide.");
     } // comment throw exception? majExcecption ne prends pas de QString
 }
 
@@ -200,11 +201,12 @@ void FenetreCalculatrice::clickRedo() {
 }
 
 bool FenetreCalculatrice::eventFilter(QObject *object, QEvent *event) {
-    QStringList sList = commande->text().split(" ");
+    QStringList sList = commande->text().split(" "); // on récupere la ligne de commande dans une liste delimitée par " "
     QKeyEvent* pressed = static_cast<QKeyEvent*>(event);
-    if (event->type() == QEvent::KeyPress) {
+    if (event->type() == QEvent::KeyPress) { // si l'utilisateur presse une clé du clavier
         if (OperateursManager::getInstance().isOperateur(pressed->text().toStdString()) && sList.indexOf("STO") != -1) {
-            getNextCommande();
+            // SI LIGNE D'OPERANDE ET L'UTILISATEUR PRESSE UN OPERATEUR
+            getNextCommande(); // on exécute la ligne de commande
             refresh();
             return true;
         }
@@ -212,11 +214,4 @@ bool FenetreCalculatrice::eventFilter(QObject *object, QEvent *event) {
     return QObject::eventFilter(object, event);
 }
 
-void FenetreCalculatrice::clickOp() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-    getNextCommande();
-    refresh();
-}
 

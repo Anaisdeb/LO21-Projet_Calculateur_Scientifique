@@ -6,12 +6,14 @@
 #include "fenetrecalculatrice.h"
 #include "fenetreprogrammes.h"
 #include "fenetrevariables.h"
+//#include "claviervariables.h"
 #include <string>
 #include <iostream>
 #include <memory>
 #include <QSqlQuery>
 #include <QtSql>
 #include <QMessageBox>
+#include <QPushButton>
 
 
 Manager& Manager::getInstance() {
@@ -61,8 +63,7 @@ void Manager::AddAtome(std::shared_ptr<LittExpression> nom, std::shared_ptr<Litt
             // Ajout d'une variable
             FenetreCalculatrice::donneInstance()->majException("La variable "+ nom->getParam() +" a bien été stockée");
             if(!query.exec("insert into variables values(NULL, '"+QString::fromStdString(nom->getParam())+"', '"+QString::fromStdString(atome->toString())+"')"))
-                qWarning() << "Manager::AddAtome - ERREUR insertion variables : " << query.lastError().text();
-            FenetreVariables::donneInstance()->updateTab();
+                qWarning() << "Manager::AddAtome - ERREUR insertion variables : " << query.lastError().text();       
         }
     }
 }

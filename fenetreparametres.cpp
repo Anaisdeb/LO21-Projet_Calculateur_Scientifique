@@ -55,7 +55,7 @@ void FenetreParametres::buildWindow()
     // QSPINBOX
     nb = new QSpinBox;
     nb->setRange(1, 10);
-    nb->setValue(4);
+    nb->setValue(nbLignesPile);
 
     this->setDataBaseData();
 

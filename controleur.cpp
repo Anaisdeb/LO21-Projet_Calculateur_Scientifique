@@ -34,6 +34,7 @@ void Controleur::exec(std::string s) {
             std::shared_ptr<Operateur> op = OperateursManager::getInstance().getOperateur(t); // recherche de l'opérateur (op)
             int arite = op->getArite(); // recherche de son arité
             // dépile (pop)
+            if (pile.taille() < arite) throw ProjetException("Pas assez de littérales.");
             Donnees<std::shared_ptr<Operande>> params;
             for (int i = 0; i < arite; i++) {
                 std::shared_ptr<Operande> temp = pile.pop();
@@ -68,8 +69,6 @@ void Controleur::exec(std::string s) {
             int i = t.find('/');
             pile.push(FabriqueLitterale::donneInstance().makeLitterale(std::stoi(t), std::stoi(t.substr(i+1, t.length()-i-1))));
         }
-
-
         else if (Manager::getInstance().isAtome(t)) {
             std::shared_ptr<Litterale> atome = Manager::getInstance().GetAtome(t);
             atome->eval();
