@@ -8,64 +8,64 @@
 
 ClavierVariables::ClavierVariables(QWidget* parent) {
     QVBoxLayout* mainLayout = new QVBoxLayout;
-    QScrollArea* scrollArea = new QScrollArea();
-    scrollArea->setWidgetResizable(true);
+    //QScrollArea* scrollArea = new QScrollArea();
+    //scrollArea->setWidgetResizable(true);
 
     QGroupBox* groupvar = new QGroupBox("Clavier 1");
     /*QPushButton* num = new QPushButton("NUM");
-    connect(num, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(num, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* den = new QPushButton("DEN");
-    connect(den, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(den, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* pow = new QPushButton("POW");
-    connect(pow, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(pow, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* sin = new QPushButton("SIN");
-    connect(sin, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(sin, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* cos = new QPushButton("COS");
-    connect(cos, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(cos, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* tan = new QPushButton("TAN");
-    connect(tan, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(tan, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* arcsin = new QPushButton("ARCSIN");
-    connect(arcsin, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(arcsin, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* arccos = new QPushButton("ARCCOS");
-    connect(arccos, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(arccos, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* arctan = new QPushButton("ARCTAN");
-    connect(arctan, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(arctan, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* sqrt = new QPushButton("SQRT");
-    connect(sqrt, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(sqrt, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* exp = new QPushButton("EXP");
-    connect(exp, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(exp, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* ln = new QPushButton("LN");
-    connect(ln, SIGNAL(clicked()), parent, SLOT(clickOpUnaire())); */
+    connect(ln, SIGNAL(clicked()), parent, SLOT(clickOp())); */
     QPushButton* egal = new QPushButton("=");
-    connect(egal, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(egal, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* notegal = new QPushButton("!=");
-    connect(notegal, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(notegal, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* infegal = new QPushButton("=<");
-    connect(infegal, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(infegal, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* supegal = new QPushButton(">=");
-    connect(supegal, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(supegal, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* inf = new QPushButton("<");
-    connect(inf, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(inf, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* sup = new QPushButton(">");
-    connect(sup, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(sup, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* et = new QPushButton("AND");
-    connect(et, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(et, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* ou = new QPushButton("OR");
-    connect(ou, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(ou, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* non = new QPushButton("NOT");
-    connect(non, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(non, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* dup = new QPushButton("DUP");
-    connect(dup, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(dup, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* drop = new QPushButton("DROP");
-    connect(drop, SIGNAL(clicked()), parent, SLOT(clickOpUnaire()));
+    connect(drop, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* swap = new QPushButton("SWAP");
-    connect(swap, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(swap, SIGNAL(clicked()), parent, SLOT(clickOp()));
     QPushButton* ift = new QPushButton("IFT");
-    connect(ift, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));
+    connect(ift, SIGNAL(clicked()), parent, SLOT(clickOp()));
     /*QPushButton* ifte = new QPushButton("IFTE");
-    connect(ifte, SIGNAL(clicked()), parent, SLOT(clickOpBinaire())); // pas binaire
+    connect(ifte, SIGNAL(clicked()), parent, SLOT(clickOp())); // pas binaire
     QPushButton* tantque = new QPushButton("WHILE");
-    connect(tantque, SIGNAL(clicked()), parent, SLOT(clickOpBinaire()));*/
+    connect(tantque, SIGNAL(clicked()), parent, SLOT(clickOp()));*/
 
     varLayout = new QGridLayout();
     varLayout->addWidget(egal, 0, 0);
@@ -98,8 +98,8 @@ ClavierVariables::ClavierVariables(QWidget* parent) {
 
 
     groupvar->setLayout(varLayout);
-    scrollArea->setWidget(groupvar);
-    mainLayout->addWidget(scrollArea);
+    //scrollArea->setWidget(groupvar);
+    mainLayout->addWidget(groupvar);
     this->setLayout(mainLayout);
 }
 
