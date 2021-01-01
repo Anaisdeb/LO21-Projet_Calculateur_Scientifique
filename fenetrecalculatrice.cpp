@@ -4,6 +4,7 @@
 #include "claviernumerique.h"
 #include "claviervariables.h"
 #include "controleur.h"
+#include "operateursmanager.h"
 #include "projetexception.h"
 #include <QObject>
 #include <QVBoxLayout>
@@ -177,10 +178,13 @@ void FenetreCalculatrice::clickOperateur() {
 }
 
 void FenetreCalculatrice::clickClear() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-
+    if (!controleur->pile.estVide()) {
+        while (!controleur->pile.estVide()) {
+            controleur->pile.pop();
+        }
+    } else {
+            message->setText("La pile est vide.");
+    } // comment throw exception? majExcecption ne prends pas de QString
 }
 
 void FenetreCalculatrice::clickUndo() {
@@ -195,30 +199,20 @@ void FenetreCalculatrice::clickRedo() {
     commande->setFocus();
 }
 
-// marche pas
-/*void FenetreCalculatrice::keyPressEvent(QKeyEvent *event) {
-    if (Qt::Key_Asterisk || Qt::Key_Plus || Qt::Key_Minus || Qt::Key_Slash) {
-        getNextCommande();
-    }
-}*/
-
 bool FenetreCalculatrice::eventFilter(QObject *object, QEvent *event) {
+    QStringList sList = commande->text().split(" ");
     QKeyEvent* pressed = static_cast<QKeyEvent*>(event);
     if (event->type() == QEvent::KeyPress) {
-        if (pressed->key() == Qt::Key_Up) {
-            QMessageBox::information(FenetreCalculatrice::donneInstance(), "Erreur", "la valeur est dans la zone");
+        if (OperateursManager::getInstance().isOperateur(pressed->text().toStdString()) && sList.indexOf("STO") != -1) {
+            getNextCommande();
+            refresh();
+            return true;
         }
     }
+    return QObject::eventFilter(object, event);
 }
 
-void FenetreCalculatrice::clickOpUnaire() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-    getNextCommande();
-    refresh();
-}
-void FenetreCalculatrice::clickOpBinaire() {
+void FenetreCalculatrice::clickOp() {
     QPushButton* button = qobject_cast<QPushButton*>(sender());
     commande->setText(commande->text() + button->text());
     commande->setFocus();
@@ -226,157 +220,3 @@ void FenetreCalculatrice::clickOpBinaire() {
     refresh();
 }
 
-/*
-void FenetreCalculatrice::clickMod() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-
-void FenetreCalculatrice::clickDiv() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-
-void FenetreCalculatrice::clickNeg() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-
-void FenetreCalculatrice::clickNum() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickDen() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickPow() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickSin() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickCos() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickTan() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickArcsin() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickArccos() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickArctan() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickSqrt() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickExp() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickLn() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickEgal() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickNotegal() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickInfegal() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickSupegal() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickInf() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickSup() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickEt() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickOu() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickNon() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickDup() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickDrop() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickSwap() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickIft() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickIfte() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-void FenetreCalculatrice::clickTantque() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}*/
