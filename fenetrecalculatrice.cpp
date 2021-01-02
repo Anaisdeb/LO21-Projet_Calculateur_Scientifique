@@ -28,18 +28,24 @@ FenetreCalculatrice::FenetreCalculatrice(QWidget* parent) : QWidget(parent)
 // =============== PRIVATE ===============
 
 void FenetreCalculatrice::buildWindow() {
+        // LAYOUT
         mainLayout = new QVBoxLayout;
+        reduire = new QHBoxLayout();
 
+        // MESSAGE POUR L'UTILISATEUR
         message = new QLineEdit;
         message->setReadOnly(true);
         message->setStyleSheet("background-color:yellow; color:red");
         mainLayout->addWidget(message);
 
+        // CONTROLEUR
         controleur = &Controleur::donneInstance();
         controleur->pile.setNbItemsToAffiche(FenetreParametres::getNbLignesPiles());
         controleur->pile.setMessage("Bienvenue !");
         message->setText(Controleur::donneInstance().pile.getMessage());
+        QObject::connect(&controleur->pile, SIGNAL(modificationEtat()), this, SLOT(refresh()));
 
+        // AFFICHAGE ETAT DE LA PILE
         vuePile = new QTableWidget(static_cast<int>(FenetreParametres::getNbLignesPiles()), 1);
         vuePile->horizontalHeader()->hide();
         vuePile->horizontalHeader()->setStretchLastSection(true);
@@ -50,20 +56,21 @@ void FenetreCalculatrice::buildWindow() {
         vuePile->setFixedHeight(static_cast<int>(FenetreParametres::getNbLignesPiles()) * vuePile->rowHeight(0) + 3);
         mainLayout->addWidget(vuePile);
 
+        // LIGNE DE COMMANDE
         commande = new QLineEdit("");
         commande->installEventFilter(this);
         mainLayout->addWidget(commande);
-
         connect(commande, SIGNAL(returnPressed()), this, SLOT(getNextCommande()));
-        QObject::connect(&controleur->pile, SIGNAL(modificationEtat()), this, SLOT(refresh()));
 
+        // CLAVIER VARIABLE
         clavier1 = new ClavierVariables(this);
         clavier1->setVisible(true);
 
+        // CLAVIER NUMERIQUE
         clavier2 = new ClavierNumerique(this);
         clavier2->setVisible(true);
 
-        reduire = new QHBoxLayout();
+        // MASQUER LES CLAVIERS
         minimize_var = new QCheckBox("Réduire le clavier 1");
         minimize_num = new QCheckBox("Réduire le clavier 2");
         minimize_var->setChecked(false);
@@ -75,9 +82,7 @@ void FenetreCalculatrice::buildWindow() {
         connect(minimize_var, SIGNAL(stateChanged(int)), clavier1, SLOT(minimize1(int)));
 
         mainLayout->addWidget(clavier1);
-
         mainLayout->addWidget(clavier2);
-
         mainLayout->addStretch();
 
         this->setLayout(mainLayout);
@@ -112,10 +117,10 @@ void FenetreCalculatrice::majException(const std::string s)
 void FenetreCalculatrice::majPile(int n)
 {
     child = mainLayout->takeAt(1);
-    delete child->widget();
+    delete child->widget(); // on supprime l'ancier QTableWidget
     delete child;
 
-    vuePile = new QTableWidget(static_cast<int>(FenetreParametres::getNbLignesPiles()), 1);
+    vuePile = new QTableWidget(static_cast<int>(FenetreParametres::getNbLignesPiles()), 1); // on en crée un nouveau avec le nouveau nombre d'éléments
     vuePile->horizontalHeader()->hide();
     vuePile->horizontalHeader()->setStretchLastSection(true);
     vuePile->setEditTriggers(QAbstractItemView::NoEditTriggers);
@@ -169,11 +174,15 @@ void FenetreCalculatrice::clickChiffre() {
 }
 
 void FenetreCalculatrice::clickOperateur() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text()); // on affiche le texte du bouton cliqué sur la ligne de commande
-    commande->setFocus();
-    getNextCommande(); // on exécute la ligne de commande
-    refresh(); // on met a jour l'affichage de la pile
+    try {
+        QPushButton* button = qobject_cast<QPushButton*>(sender());
+        commande->setText(commande->text() + button->text()); // on affiche le texte du bouton cliqué sur la ligne de commande
+        commande->setFocus();
+        getNextCommande(); // on exécute la ligne de commande
+        refresh(); // on met a jour l'affichage de la pile
+    } catch(ProjetException& e) {
+        FenetreCalculatrice::donneInstance()->majException(e.what());
+    }
 }
 
 void FenetreCalculatrice::clickClear() {
@@ -184,19 +193,7 @@ void FenetreCalculatrice::clickClear() {
         refresh();
     } else {
         message->setText("La pile est vide.");
-    } // comment throw exception? majExcecption ne prends pas de QString
-}
-
-void FenetreCalculatrice::clickUndo() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
-}
-
-void FenetreCalculatrice::clickRedo() {
-    QPushButton* button = qobject_cast<QPushButton*>(sender());
-    commande->setText(commande->text() + button->text());
-    commande->setFocus();
+    }
 }
 
 bool FenetreCalculatrice::eventFilter(QObject *object, QEvent *event) {
@@ -210,5 +207,9 @@ bool FenetreCalculatrice::eventFilter(QObject *object, QEvent *event) {
             return true;
         }
     }
-    return QObject::eventFilter(object, event);
+    return false;
+}
+
+void FenetreCalculatrice::ajoutBouton(const QString& nom) {
+    clavier1->ajoutBouton(nom);
 }

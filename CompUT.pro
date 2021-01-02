@@ -4,6 +4,7 @@ QT += sql
 SOURCES += \
     claviernumerique.cpp \
     claviervariables.cpp \
+    connexionbasededonnees.cpp \
     controleur.cpp \
     fabriquelitterale.cpp \
     fenetreparametres.cpp \
@@ -22,6 +23,7 @@ SOURCES += \
 HEADERS += \
     claviernumerique.h \
     claviervariables.h \
+    connexionbasededonnees.h \
     controleur.h \
     donnees.h \
     fabriquelitterale.h \

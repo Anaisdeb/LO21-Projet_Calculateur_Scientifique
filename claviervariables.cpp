@@ -67,6 +67,8 @@ ClavierVariables::ClavierVariables(QWidget* parent) {
     connect(swap, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* ift = new QPushButton("IFT");
     connect(ift, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
+    QPushButton* sto = new QPushButton("STO");
+    connect(sto, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     /*QPushButton* ifte = new QPushButton("IFTE");
     connect(ifte, SIGNAL(clicked()), parent, SLOT(clickOperateur())); // pas binaire
     QPushButton* tantque = new QPushButton("WHILE");
@@ -85,6 +87,7 @@ ClavierVariables::ClavierVariables(QWidget* parent) {
     varLayout->addWidget(et, 2, 2);
     varLayout->addWidget(ou, 2, 3);
     varLayout->addWidget(non, 3, 0);
+    varLayout->addWidget(sto, 3, 1);
     /*varLayout->addWidget(num, 0, 1);
     varLayout->addWidget(den, 0, 2);
     varLayout->addWidget(pow, 0, 3);*/
@@ -99,7 +102,6 @@ ClavierVariables::ClavierVariables(QWidget* parent) {
     varLayout->addWidget(ln, 3, 3);*/
     /*varLayout->addWidget(ifte, 5, 2);
     varLayout->addWidget(tantque, 5, 3);*/
-
 
     groupvar->setLayout(varLayout);
     //scrollArea->setWidget(groupvar);
@@ -117,7 +119,6 @@ void ClavierVariables::minimize1(int state) {
     }
 }
 
-
 void ClavierVariables::ajoutBouton(const QString& nom) {
     // QPUSHBUTTON
     QPushButton* boutonVar = new QPushButton(nom);
@@ -128,4 +129,5 @@ void ClavierVariables::ajoutBouton(const QString& nom) {
         *hor = 0; // on prépare le prochain bouton sur la 1e colonne
         (*ver)++; // on prépare le boutton sur la prochaine ligne
     }
+    connect(boutonVar, SIGNAL(clicked()), FenetreCalculatrice::donneInstance(), SLOT(clickOperateur()));
 }

@@ -56,11 +56,14 @@ protected:
     bool eventFilter(QObject* object, QEvent *event) override;
 
 public:
-
     static FenetreCalculatrice* donneInstance();
     static void libereInstance();
 
 public slots:
+    /**
+    * @brief : Met a jour la pile après changement de son nombre d'éléments
+    * @param : (int) Nombre d'éléments de la pile
+    */
     void majPile(int);
     /**
     * @brief : Mise à jour de l'affichage de la pile sur vuePile
@@ -82,9 +85,16 @@ public slots:
     * @brief : Vide tous les éléments de la pile
     */
     void clickClear();
-    void clickUndo();
-    void clickRedo();
+    /**
+    * @brief : Affiche l'exception sur le QLineEdit message
+    * @param : (const string) Message d'exception
+    */
     void majException(const std::string s);
+    /**
+    * @brief : Ajoute un bouton programme ou variable
+    * @param : (const QString&) Nom du bouton
+    */
+    void ajoutBouton(const QString& nom);
 
 };
 

@@ -55,6 +55,7 @@ void Manager::AddAtome(std::shared_ptr<LittExpression> nom, std::shared_ptr<Litt
             if(!query.exec("insert into programmes values(NULL, '"+QString::fromStdString(nom->getParam())+"', '"+QString::fromStdString(atome->toString())+"')"))
                 qWarning() << "Manager::AddAtome - ERREUR insertion programme : " << query.lastError().text();
             FenetreProgrammes::donneInstance()->updateTab();
+            FenetreCalculatrice::donneInstance()->ajoutBouton(QString::fromStdString(nom->getParam()));
         }
         else
         {
@@ -65,6 +66,7 @@ void Manager::AddAtome(std::shared_ptr<LittExpression> nom, std::shared_ptr<Litt
             if(!query.exec("insert into variables values(NULL, '"+QString::fromStdString(nom->getParam())+"', '"+QString::fromStdString(atome->toString())+"')"))
                 qWarning() << "Manager::AddAtome - ERREUR insertion variables : " << query.lastError().text();
             FenetreVariables::donneInstance()->updateTab();
+            FenetreCalculatrice::donneInstance()->ajoutBouton(QString::fromStdString(nom->getParam()));
         }
     }
 }

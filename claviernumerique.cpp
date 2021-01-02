@@ -36,10 +36,10 @@ ClavierNumerique::ClavierNumerique(QWidget* parent) : QWidget(parent) {
     connect(b9, SIGNAL(clicked()), parent, SLOT(clickChiffre()));
     QPushButton* b0 = new QPushButton("0");
     connect(b0, SIGNAL(clicked()), parent, SLOT(clickChiffre()));
-    QPushButton* undo = new QPushButton("UNDO");
-    connect(undo, SIGNAL(clicked()), parent, SLOT(clickUndo()));
-    QPushButton* redo = new QPushButton("REDO");
-    connect(redo, SIGNAL(clicked()), parent, SLOT(clickRedo()));
+    //QPushButton* undo = new QPushButton("UNDO");
+    // connect(undo, SIGNAL(clicked()), parent, SLOT(clickUndo()));
+    //QPushButton* redo = new QPushButton("REDO");
+    // connect(redo, SIGNAL(clicked()), parent, SLOT(clickRedo()));
     QPushButton* clear = new QPushButton("CLEAR");
     connect(clear, SIGNAL(clicked()), parent, SLOT(clickClear()));
     QPushButton* div = new QPushButton("DIV");
@@ -64,9 +64,10 @@ ClavierNumerique::ClavierNumerique(QWidget* parent) : QWidget(parent) {
     numLayout->addWidget(b7, 0, 0);
     numLayout->addWidget(b8, 0, 1);
     numLayout->addWidget(b9, 0, 2);
-    numLayout->addWidget(undo, 0, 3);
-    numLayout->addWidget(redo, 0, 4);
-    numLayout->addWidget(clear, 0, 5);
+    // numLayout->addWidget(undo, 0, 3);
+    // numLayout->addWidget(redo, 0, 4);
+    numLayout->addWidget(neg, 0, 3);
+    numLayout->addWidget(clear, 0, 4, 1, 2);
     numLayout->addWidget(b4, 1, 0);
     numLayout->addWidget(b5, 1, 1);
     numLayout->addWidget(b6, 1, 2);
@@ -81,8 +82,7 @@ ClavierNumerique::ClavierNumerique(QWidget* parent) : QWidget(parent) {
     numLayout->addWidget(bMoins, 2, 5);
     numLayout->addWidget(b0, 3, 0, 1, 2);
     numLayout->addWidget(point, 3, 2);
-    numLayout->addWidget(neg, 3, 3);
-    numLayout->addWidget(eval, 3, 4, 1, 2);
+    numLayout->addWidget(eval, 3, 3, 1, 3);
 
     groupnum->setLayout(numLayout);
     mainLayout->addWidget(groupnum);
