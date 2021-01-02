@@ -11,7 +11,6 @@
 #include <QObject>
 #include <QSpinBox>
 
-// INITIALISATION DES VARIABLES STATIC
 unsigned int FenetreParametres::nbLignesPile = 4;
 QString FenetreParametres::nomUtilsateur = "Utilisateur1";
 
@@ -19,29 +18,16 @@ QString FenetreParametres::nomUtilsateur = "Utilisateur1";
 
 FenetreParametres::FenetreParametres(QWidget* parent) : QWidget(parent)
 {
-    // CREATION DE LA TABLE 'parametres' SI ELLE N'EXISTE PAS
-    dataBaseInit();
-
-    // CREATION DE LA FENETRE
     buildWindow();
 }
 
 // =============== PRIVATE ===============
 
-void FenetreParametres::dataBaseInit()
-{
-    QSqlQuery query("CREATE TABLE IF NOT EXISTS parametres (id INTEGER PRIMARY KEY "
-                    "AUTOINCREMENT, nbLignesPile VARCHAR(20), nomUtilisateur VARCHAR(20))");
-
-    if(!query.isActive())
-        qWarning() << "FenetreParametres::dataBaseInit - ERROR: " << query.lastError().text();
-}
-
 void FenetreParametres::buildWindow()
 {
     // QLABEL
-    QLabel* label_nom = new QLabel("Nom de l'utilisateur : ");
-    QLabel* label_nb = new QLabel("Nombre d'éléments de la pile à afficher : ");
+    label_nom = new QLabel("Nom de l'utilisateur : ");
+    label_nb = new QLabel("Nombre d'éléments de la pile à afficher : ");
 
     // QLINEEDIT
     infoUtilisateur = new QLineEdit("Voici la fenêtre où vous pouvez modifier les paramètres "
@@ -49,24 +35,24 @@ void FenetreParametres::buildWindow()
     infoUtilisateur->setReadOnly(true);
     infoUtilisateur->setStyleSheet("background-color:yellow; color:red");
 
-    nom = new QLineEdit;
+    nom = new QLineEdit(nomUtilsateur);
     nom->setMaxLength(20);
 
     // QSPINBOX
     nb = new QSpinBox;
     nb->setRange(1, 10);
-    nb->setValue(nbLignesPile);
+    nb->setValue(static_cast<int>(nbLignesPile));
 
     this->setDataBaseData();
 
     // LAYOUTS
-    mainLayout = new QVBoxLayout;
+    mainLayout = new QVBoxLayout();
 
-    QHBoxLayout* layout_nom = new QHBoxLayout;
+    layout_nom = new QHBoxLayout();
     layout_nom->addWidget(label_nom);
     layout_nom->addWidget(nom);
 
-    QHBoxLayout* layout_nb = new QHBoxLayout;
+    layout_nb = new QHBoxLayout;
     layout_nb->addWidget(label_nb);
     layout_nb->addWidget(nb);
 
@@ -93,13 +79,15 @@ void FenetreParametres::setDataBaseData()
     if(query.first())
     {
         nb->setValue(query.value(1).toInt());
-        FenetreParametres::setNbLignesPiles(static_cast<unsigned int>(query.value(1).toInt()));
-
+        setNbLignesPiles(static_cast<unsigned int>(query.value(1).toInt()));
         nom->setText(query.value(2).toString());
-        FenetreParametres::setNomUtilisateur(query.value(2).toString());
+        setNomUtilisateur(query.value(2).toString());
     }
     else
-        qWarning() << "FenetreParametres::setDataBaseData - ERROR: " << query.lastError().text();
+    {
+        if(!query.exec("INSERT INTO parametres VALUES(NULL, '4', 'Utilisateur1')"))
+          qWarning() << "FenetreParametres::setDataBaseData - ERROR: " << query.lastError().text();
+    }
 }
 
 // =============== PUBLIC SLOTS ===============
@@ -123,10 +111,10 @@ void FenetreParametres::actuNom(const QString& text)
         query.prepare("UPDATE parametres SET nomUtilisateur = ? WHERE id = '1'");
         query.addBindValue(nomU);
 
-        FenetreParametres::setNomUtilisateur(nomU);
-
         if(!query.exec())
             qWarning() << "ERROR: " << query.lastError().text();
+
+        setNomUtilisateur(nomU);
     }
 }
 
@@ -139,8 +127,8 @@ void FenetreParametres::actuNb(int i)
         query.prepare("UPDATE parametres SET nbLignesPile = ? WHERE id = '1'");
         query.addBindValue(s);
 
-        FenetreParametres::setNbLignesPiles(static_cast<unsigned int>(i));
-
         if(!query.exec())
             qWarning() << "ERROR: " << query.lastError().text();
+
+        setNbLignesPiles(static_cast<unsigned int>(i));
 }

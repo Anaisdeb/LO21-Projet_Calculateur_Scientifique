@@ -1,11 +1,10 @@
 #include "fenetrevariables.h"
 #include "fenetrecalculatrice.h"
 #include "projetexception.h"
-#include <QSqlDatabase>
 #include "manager.h"
 #include "controleur.h"
+#include "connexionbasededonnees.h"
 #include <QtSql>
-#include <QSqlQuery>
 #include <QVector>
 #include <QTableWidget>
 #include <QVBoxLayout>
@@ -21,20 +20,13 @@ FenetreVariables* FenetreVariables::uniqueInstance = nullptr;
 
 FenetreVariables::FenetreVariables(QWidget *parent) : QWidget(parent)
 {
-    // connexion à la base de données + création si elle n'existe pas de la table 'variables'
-    //dataBaseConnect();
-    dataBaseInit();
-
-    // créer la fenêtre
     buildWindow();
 }
-
 
 // =============== PUBLIC ===============
 
 void FenetreVariables::updateTab()
 {
-    QLayoutItem *child;
     child = mainLayout->takeAt(4);
 
     delete child->widget(); // delete the widget
@@ -64,55 +56,16 @@ void FenetreVariables::libereInstance()
 
 // =============== PRIVATE ===============
 
-
-void FenetreVariables::dataBaseConnect()
-{
-    const QString DRIVER("QSQLITE");
-
-    if(QSqlDatabase::isDriverAvailable(DRIVER))
-    {
-
-        QDir dbPath;
-        QString path = dbPath.currentPath()+"/bdd_comput.db";
-        QSqlDatabase db = QSqlDatabase::addDatabase(DRIVER);
-        db.setDatabaseName(path);
-
-        if(!db.open())
-                qWarning() << "FenetreVariables::dataBaseConnect - ERROR: " << db.lastError().text();
-    }
-    else
-        qWarning() << "FenetreVariables::dataBaseConnect - ERROR: no driver " << DRIVER << " available";
-}
-
-
-void FenetreVariables::dataBaseInit()
-{
-    QSqlQuery query("CREATE TABLE IF NOT EXISTS variables (id INTEGER PRIMARY KEY "
-                    "AUTOINCREMENT,nom VARCHAR(20), valeur VARCHAR(20))");
-
-    if(!query.isActive())
-        qWarning() << "FenetreVariables::dataBaseInit - ERROR: " << query.lastError().text();
-}
-
-
 void FenetreVariables::buildWindow()
 {
         // QPUSHBUTTONS
         modifier = new QPushButton("Modifier");
-
         supprimer= new QPushButton("Supprimer");
-
         valider = new QPushButton("Valider");
         valider->setEnabled(false);
 
         // QLINEEDIT
         champ = new QLineEdit;
-        /* idée pour restreindre les entrées à des double
-        champ = new QDoubleSpinBox;
-        champ->setMinimum(-100000);
-        champ->setMaximum(100000);
-        champ->setSingleStep(0.001);// Will increment the current value with 1 (if you use up arrow key) (if you use down arrow key => -1)
-        */
         infoUtilisateur = new QLineEdit("Rentrer dans le champ ci-dessous le nom d'une "
                                         "variable que vous souhaitez supprimer ou modifier");
         infoUtilisateur->setReadOnly(true);
@@ -125,7 +78,7 @@ void FenetreVariables::buildWindow()
         this->createTab();
 
         // LAYOUTS
-        QHBoxLayout* boutons = new QHBoxLayout();
+        boutons = new QHBoxLayout();
         boutons->addWidget(modifier);
         boutons->addWidget(valider);
         boutons->addWidget(supprimer);
@@ -182,9 +135,7 @@ void FenetreVariables::createTab()
     }
 }
 
-
 // =============== PUBLIC SLOTS ===============
-
 
 void FenetreVariables::editerValeur()
 {
@@ -223,12 +174,11 @@ void FenetreVariables::editerValeur()
                                            "variable " + nomVar + ".");
             this->champ->clear();
             this->champ->setFocus();
-            this->modifier->setEnabled(false); // on désactive le bouton 'modifier'
-            this->valider->setEnabled(true); // on active le bouton 'valider'
+            this->modifier->setEnabled(false);
+            this->valider->setEnabled(true);
         }
     }
 }
-
 
 void FenetreVariables::validerValeur()
 {
@@ -249,10 +199,6 @@ void FenetreVariables::validerValeur()
         // RECUPERATION DE L'ID DE LA VARIABLE
         QString idVar = this->passageValeurs->text();
 
-        // MISE A JOUR DE LA BASE DE DONNEES
-        //if(!query.exec("UPDATE variables SET valeur = '" + valVar + "' WHERE id = '" + idVar +  "'"))
-          //qWarning() << "ERROR: " << query.lastError().text();
-
         // RECUPERATION DU NOM
         if(!query.exec("Select nom FROM variables WHERE id = '" + idVar +  "'"))
             qWarning() << "ERROR: " << query.lastError().text();
@@ -260,7 +206,6 @@ void FenetreVariables::validerValeur()
         if(query.first())
         {
             QString nomVar = query.value(0).toString();
-
 
             try {
                 Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
@@ -281,7 +226,6 @@ void FenetreVariables::validerValeur()
             qWarning() << "ERROR: " << query.lastError().text();
     }
 }
-
 
 void FenetreVariables::supprimerVariable()
 {
@@ -314,14 +258,6 @@ void FenetreVariables::supprimerVariable()
         }
         else
         {
-            /*
-            query.prepare("DELETE FROM variables WHERE nom = ?");
-            query.addBindValue(nomVar);
-
-            if(!query.exec())
-              qWarning() << "ERROR: " << query.lastError().text();
-
-            */
             Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
 
             this->infoUtilisateur->setText("La variable " + nomVar + " a bien été supprimée.");

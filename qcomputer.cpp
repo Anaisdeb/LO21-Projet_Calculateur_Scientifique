@@ -4,27 +4,37 @@
 #include <QSqlQuery>
 #include <QtSql>
 
-
 #include "qcomputer.h"
 #include "controleur.h"
 #include "fenetrecalculatrice.h"
 #include "fenetrevariables.h"
 #include "fenetreparametres.h"
 #include "fenetreprogrammes.h"
+#include "connexionbasededonnees.h"
 
-// =============== CONSTRUCTEUR ===============
+// =============== CONSTRUCTEUR/DESTRUCTEUR ===============
 
 QComputer::QComputer(QWidget *parent) : QWidget(parent)
 {
-    // CONSTRUCTION DE LA FENETRE
+    ConnexionBaseDeDonnees::donneInstance();
     buildWindow();
+}
+
+QComputer::~QComputer()
+{
+    FenetreCalculatrice::donneInstance()->libereInstance();
+    FenetreVariables::donneInstance()->libereInstance();
+    FenetreProgrammes::donneInstance()->libereInstance();
 }
 
 // =============== PRIVATE ===============
 
 void QComputer::buildWindow()
 {
-    FenetreParametres* fparam = new FenetreParametres();
+    FenetreCalculatrice* fcalc = FenetreCalculatrice::donneInstance();
+    FenetreVariables* fvar = FenetreVariables::donneInstance();
+    FenetreProgrammes* fprog = FenetreProgrammes::donneInstance();
+    FenetreParametres* fparam = new FenetreParametres;
 
     // STYLE PAR DEFAUT
     QString tabStyle1("QTabBar::tab {color: rgb(89, 89, 89);}"
@@ -35,20 +45,20 @@ void QComputer::buildWindow()
     tabWidget->setMovable(true);
 
     // AJOUT DES DIFFERENTS ONGLETS
-    tabWidget->addTab(FenetreCalculatrice::donneInstance(), "Calculatrice");
+    tabWidget->addTab(fcalc, "Calculatrice");
     tabWidget->setTabToolTip(0, "Permet de réaliser des calculs");
 
-    tabWidget->addTab(FenetreVariables::donneInstance(), "Variables");
+    tabWidget->addTab(fvar, "Variables");
     tabWidget->setTabToolTip(1, "Permet de modifier/supprimer des variables");
 
-    tabWidget->addTab(FenetreProgrammes::donneInstance(), "Programmes");
+    tabWidget->addTab(fprog, "Programmes");
     tabWidget->setTabToolTip(2, "Permet de modifier/supprimer des programmes");
 
     tabWidget->addTab(fparam, "Paramètres");
     tabWidget->setTabToolTip(3, "Permet de modifier les paramètres de la calculatrice");
 
     // LAYOUTS
-    QVBoxLayout *mainLayout = new QVBoxLayout;
+    mainLayout = new QVBoxLayout;
     mainLayout->addWidget(tabWidget);
 
     this->setLayout(mainLayout);
@@ -57,6 +67,9 @@ void QComputer::buildWindow()
 
     // TITRE DE LA FENETRE PRINCIPALE
     this->setWindowTitle("Comp'Ut");
+
+    std::string msgBienvenue = FenetreParametres::getNomUtilisateur().toUtf8().constData();
+    FenetreCalculatrice::donneInstance()->majException("Bienvenue " + msgBienvenue + " !");
 }
 
 void addDatabaseToManager()
@@ -88,8 +101,6 @@ void addDatabaseToManager()
 
     if(!query.exec("delete from variables"))
         qWarning() << "ERROR: " << query.lastError().text();
-
-    //QObject::connect(this, SIGNAL())
 
     Controleur::donneInstance().exec(strcommande.toUtf8().constData());
 }

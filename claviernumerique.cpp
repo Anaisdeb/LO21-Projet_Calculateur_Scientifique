@@ -100,7 +100,3 @@ void ClavierNumerique::minimize2(int state) {
         this->setVisible(true); // on rend le clavier visible
     }
 }
-
-
-
-

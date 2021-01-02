@@ -63,7 +63,8 @@ void Manager::AddAtome(std::shared_ptr<LittExpression> nom, std::shared_ptr<Litt
             // Ajout d'une variable
             FenetreCalculatrice::donneInstance()->majException("La variable "+ nom->getParam() +" a bien été stockée");
             if(!query.exec("insert into variables values(NULL, '"+QString::fromStdString(nom->getParam())+"', '"+QString::fromStdString(atome->toString())+"')"))
-                qWarning() << "Manager::AddAtome - ERREUR insertion variables : " << query.lastError().text();       
+                qWarning() << "Manager::AddAtome - ERREUR insertion variables : " << query.lastError().text();
+            FenetreVariables::donneInstance()->updateTab();
         }
     }
 }
@@ -99,9 +100,4 @@ bool Manager::isAtome(std::string atome){
     return false ;
 };
 
-/*
-quand on supprime une valeur de la BDD --> la supprimer dans le manager
-quand on ajouter une valeur dans le manger, mettre à jour les affichages dasn les fenetrevar et prog
-*
-*/
 

@@ -1,9 +1,9 @@
 #include "fenetreprogrammes.h"
 #include "manager.h"
+#include "fenetrevariables.h"
+#include "projetexception.h"
 #include "controleur.h"
-#include <QSqlDatabase>
 #include <QtSql>
-#include <QSqlQuery>
 #include <QVector>
 #include <QTableWidget>
 #include <QVBoxLayout>
@@ -17,23 +17,15 @@ FenetreProgrammes* FenetreProgrammes::uniqueInstance = nullptr;
 
 // =============== CONSTRUCTEUR ===============
 
-
 FenetreProgrammes::FenetreProgrammes(QWidget *parent) : QWidget(parent)
 {
-    // connexion à la base de données + création si elle n'existe pas de la table 'programmes'
-    //dataBaseConnect();
-    dataBaseInit();
-
-    // créer la fenêtre
     buildWindow();
 }
-
 
 // =============== PUBLIC ===============
 
 void FenetreProgrammes::updateTab()
 {
-    QLayoutItem *child;
     child = mainLayout->takeAt(4);
 
     delete child->widget(); // delete the widget
@@ -61,53 +53,18 @@ void FenetreProgrammes::libereInstance()
     uniqueInstance = nullptr;
 }
 
-
 // =============== PRIVATE ===============
-
-
-void FenetreProgrammes::dataBaseConnect()
-{
-    const QString DRIVER("QSQLITE");
-
-    if(QSqlDatabase::isDriverAvailable(DRIVER))
-    {
-
-        QDir dbPath;
-        QString path = dbPath.currentPath()+"/bdd_comput.db";
-        QSqlDatabase db = QSqlDatabase::addDatabase(DRIVER);
-        db.setDatabaseName(path);
-
-        if(!db.open())
-                qWarning() << "FenetreProgrammes::dataBaseConnect - ERROR: " << db.lastError().text();
-    }
-    else
-        qWarning() << "FenetreProgrammes::dataBaseConnect - ERROR: no driver " << DRIVER << " available";
-}
-
-
-void FenetreProgrammes::dataBaseInit()
-{
-    QSqlQuery query("CREATE TABLE IF NOT EXISTS programmes (id INTEGER PRIMARY KEY "
-                    "AUTOINCREMENT, nom VARCHAR(20), valeur VARCHAR(20))");
-
-    if(!query.isActive())
-        qWarning() << "FenetreProgrammes::dataBaseInit - ERROR: " << query.lastError().text();
-}
-
 
 void FenetreProgrammes::buildWindow()
 {
         // QPUSHBUTTONS
         modifier = new QPushButton("Modifier");
-
         supprimer= new QPushButton("Supprimer");
-
         valider = new QPushButton("Valider");
         valider->setEnabled(false);
 
         // QLINEEDIT
         champ = new QLineEdit;
-
         infoUtilisateur = new QLineEdit("Rentrer dans le champ ci-dessous le nom d'un "
                                         "sous-programme que vous souhaitez supprimer ou modifier");
         infoUtilisateur->setReadOnly(true);
@@ -120,7 +77,7 @@ void FenetreProgrammes::buildWindow()
         this->createTab();
 
         // LAYOUTS
-        QHBoxLayout* boutons = new QHBoxLayout();
+        boutons = new QHBoxLayout();
         boutons->addWidget(modifier);
         boutons->addWidget(valider);
         boutons->addWidget(supprimer);
@@ -178,7 +135,6 @@ void FenetreProgrammes::createTab()
 }
 
 // =============== PUBLIC SLOTS ===============
-
 
 void FenetreProgrammes::editerValeur()
 {
@@ -243,10 +199,6 @@ void FenetreProgrammes::validerValeur()
         // RECUPERATION DE L'ID DU SOUS-PROGRAMME
         QString idVar = this->passageValeurs->text();
 
-        // MISE A JOUR DE LA BASE DE DONNEES
-        //if(!query.exec("UPDATE programmes SET valeur = '" + valVar + "' WHERE id = '" + idVar +  "'"))
-          //qWarning() << "ERROR: " << query.lastError().text();
-
         // RECUPERATION DU NOM
         if(!query.exec("Select nom FROM programmes WHERE id = '" + idVar +  "'"))
             qWarning() << "ERROR: " << query.lastError().text();
@@ -255,9 +207,13 @@ void FenetreProgrammes::validerValeur()
         {
             QString nomVar = query.value(0).toString();
 
-            Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
-            QString s = "'"+ nomVar +"' "+valVar+" STO";
-            Controleur::donneInstance().exec(s.toUtf8().constData());
+            try {
+                Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
+                QString s = "'"+ nomVar +"' "+valVar+" STO";
+                Controleur::donneInstance().exec(s.toUtf8().constData());
+            } catch (ProjetException& e) {
+                infoUtilisateur->setText(e.what());
+            }
 
             this->infoUtilisateur->setText("Le sous-programme " + nomVar + " a bien été modifié.");
             this->champ->clear();
@@ -270,7 +226,6 @@ void FenetreProgrammes::validerValeur()
             qWarning() << "ERROR: " << query.lastError().text();
     }
 }
-
 
 void FenetreProgrammes::supprimerVariable()
 {
@@ -304,13 +259,7 @@ void FenetreProgrammes::supprimerVariable()
         else
         {
             Manager::getInstance().ForgetAtome(nomVar.toUtf8().constData());
-            /*
-            query.prepare("DELETE FROM programmes WHERE nom = ?");
-            query.addBindValue(nomVar);
 
-            if(!query.exec())
-              qWarning() << "ERROR: " << query.lastError().text();
-            */
             this->infoUtilisateur->setText("Le sous-programme " + nomVar + " a bien été supprimé.");
             this->champ->clear();
             this->champ->setFocus();

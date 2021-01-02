@@ -14,6 +14,9 @@
 #include <QPushButton>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QLayoutItem>
+#include <QCheckBox>
+#include <QHBoxLayout>
 
 class ClavierNumerique;
 
@@ -39,6 +42,10 @@ private:
     Controleur* controleur;
     ClavierNumerique* clavier2;
     ClavierVariables* clavier1;
+    QHBoxLayout* reduire;
+    QCheckBox* minimize_var;
+    QCheckBox* minimize_num;
+    QLayoutItem *child;
 
 protected:
     /**

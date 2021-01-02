@@ -10,7 +10,6 @@ class FenetreProgrammes : public QWidget {
     Q_OBJECT
 
 private:
-
     FenetreProgrammes(QWidget *parent = nullptr);
     FenetreProgrammes(const FenetreProgrammes&) = delete;
     FenetreProgrammes& operator=(const FenetreProgrammes&) = delete;
@@ -24,27 +23,45 @@ private:
     QLineEdit* champ;
     QLineEdit* passageValeurs;
     QTableWidget* tab;
+    QLayoutItem *child;
+    QHBoxLayout* boutons;
     QVBoxLayout* mainLayout;
 
     // METHODES
-    void dataBaseConnect();
+    /**
+    * @brief : construire la fenêtre
+    */
     void buildWindow();
-    void dataBaseInit();
+
+    /**
+    * @brief : créer le QTableWidget qui contiendra les variables
+    */
     void createTab();
 
 public:
-
-    void updateTab();
     static FenetreProgrammes* donneInstance();
     static void libereInstance();
 
+    /**
+    * @brief : mettre à jour le QTableWidget avec les valeurs de la BDD
+    */
+    void updateTab();
+
 public slots:
+    /**
+    * @brief : vérifier qu'une variable existe avant de pouvoir la modifier
+    */
     void editerValeur();
+
+    /**
+    * @brief : modifier une variable dans la BDD et dans le Manager
+    */
     void validerValeur();
+
+    /**
+    * @brief : supprimer une variable de la BDD et du Manager
+    */
     void supprimerVariable();
-
-signals:
-
 };
 
 #endif // FENETREPROGRAMMES_H

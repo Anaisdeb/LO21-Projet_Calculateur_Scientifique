@@ -37,7 +37,7 @@ void FenetreCalculatrice::buildWindow() {
 
         controleur = &Controleur::donneInstance();
         controleur->pile.setNbItemsToAffiche(FenetreParametres::getNbLignesPiles());
-        controleur->pile.setMessage("Bienvenue " + FenetreParametres::getNomUtilisateur() + " !");
+        controleur->pile.setMessage("Bienvenue !");
         message->setText(Controleur::donneInstance().pile.getMessage());
 
         vuePile = new QTableWidget(static_cast<int>(FenetreParametres::getNbLignesPiles()), 1);
@@ -55,7 +55,7 @@ void FenetreCalculatrice::buildWindow() {
         mainLayout->addWidget(commande);
 
         connect(commande, SIGNAL(returnPressed()), this, SLOT(getNextCommande()));
-        QObject::connect(&controleur->pile, SIGNAL(modificationEtat()), this, SLOT(refresh())); // connect au refresh mrche pas je crois
+        QObject::connect(&controleur->pile, SIGNAL(modificationEtat()), this, SLOT(refresh()));
 
         clavier1 = new ClavierVariables(this);
         clavier1->setVisible(true);
@@ -63,9 +63,9 @@ void FenetreCalculatrice::buildWindow() {
         clavier2 = new ClavierNumerique(this);
         clavier2->setVisible(true);
 
-        QHBoxLayout* reduire = new QHBoxLayout();
-        QCheckBox* minimize_var = new QCheckBox("Réduire le clavier 1");
-        QCheckBox* minimize_num = new QCheckBox("Réduire le clavier 2");
+        reduire = new QHBoxLayout();
+        minimize_var = new QCheckBox("Réduire le clavier 1");
+        minimize_num = new QCheckBox("Réduire le clavier 2");
         minimize_var->setChecked(false);
         minimize_num->setChecked(false);
         reduire->addWidget(minimize_var);
@@ -111,7 +111,6 @@ void FenetreCalculatrice::majException(const std::string s)
 
 void FenetreCalculatrice::majPile(int n)
 {
-    QLayoutItem *child;
     child = mainLayout->takeAt(1);
     delete child->widget();
     delete child;
@@ -213,5 +212,3 @@ bool FenetreCalculatrice::eventFilter(QObject *object, QEvent *event) {
     }
     return QObject::eventFilter(object, event);
 }
-
-

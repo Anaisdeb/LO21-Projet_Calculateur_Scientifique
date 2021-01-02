@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QRadioButton>
 #include <QSpinBox>
+#include <QLabel>
 
 class FenetreParametres : public QWidget
 {
@@ -17,39 +18,29 @@ private:
     static QString nomUtilsateur;
 
     // WIDGETS
+    QLabel* label_nom;
+    QLabel* label_nb;
+    QHBoxLayout* layout_nom;
+    QHBoxLayout* layout_nb;
     QLineEdit* infoUtilisateur;
     QLineEdit* nom;
     QSpinBox* nb;
     QVBoxLayout* mainLayout;
 
     // METHODES
-    /**
-     * @brief : Construire à l'aide de widgets la fenêtre à afficher
-     */
     void buildWindow();
-
-    /**
-     * @brief : Initialiser les attributs avec les valeurs de la BDD
-     */
     void setDataBaseData();
 
-    /**
-     * @brief : Créer la table 'parametres' si elle n'existe pas
-     */
-    void dataBaseInit();
-
 public:
-    /**
-     * @brief : Constructeur
-     */
-    explicit FenetreParametres(QWidget *parent = nullptr);
+    FenetreParametres(QWidget *parent = nullptr);
+
 
     // GETTERS
     /**
      * @brief : Retourner le nombre d'items de la pile à afficher
      * @return : Attribut nbLignesPile
      */
-    static unsigned int getNbLignesPiles() { return  nbLignesPile; }
+    static unsigned int getNbLignesPiles() { return nbLignesPile; }
 
     /**
      * @brief : Retourner le nom de l'utilisateur

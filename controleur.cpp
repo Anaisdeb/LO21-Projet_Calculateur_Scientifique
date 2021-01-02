@@ -95,7 +95,6 @@ void Controleur::executer() {
         catch (ProjetException& e) {
             std::cout << e.what() << std::endl;
         }
-
         // On redemande une ligne
         std::cout << "Veuillez saisir une valeur ou q pour arreter: ";
         std::cin.clear();
