@@ -6,7 +6,7 @@
 //  Copyright © 2020 Thibaut Grall. All rights reserved.
 //
 
-#include "Parse.h"
+#include "parse.h"
 #include "projetexception.h"
 #include <vector>
 using namespace std;
