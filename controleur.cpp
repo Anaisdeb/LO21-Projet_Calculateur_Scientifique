@@ -41,7 +41,7 @@ void Controleur::exec(std::string s) {
                 //pile.pop();
                 params.push_back(temp);
             }
-            std::reverse(params.begin(), params.end()); // on remet les paramèetres dans le bon ordre
+            std::reverse(params.begin(), params.end()); // on remet les parametres dans le bon ordre
             std::shared_ptr<Operation> oper = op->getOperation();
             Donnees<std::shared_ptr<Operande>> res = oper->eval(params);
             // std::shared_ptr<Operande> res = op->getOperation()->eval(params); // eval d'operateur

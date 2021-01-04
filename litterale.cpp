@@ -335,8 +335,8 @@ std::shared_ptr<LittNumerique> LittEntiere::operator/(LittNumerique& l){
             return result;
         }
         else if (ent !=0){
-            auto temp= LittReelle(this->getParam() / ent->getParam());
-            return FabriqueLitterale::donneInstance().makeLitterale(temp.getParam());
+            auto temp= LittRationnelle(this->getParam(),ent->getParam());
+            return FabriqueLitterale::donneInstance().makeLitterale(temp.getNumerateur(), temp.getDenominateur());
         }
         else if (ree !=0){
             auto temp= LittReelle(this->getParam() / ree->getParam());

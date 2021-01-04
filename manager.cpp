@@ -88,8 +88,6 @@ void Manager::ForgetAtome(std::string atome){
         if(!query.exec("delete from variables where nom = '" + s + "'"))
             qWarning() << "Manager::ForgetAtome - ERREUR : " << query.lastError().text();
         // SUPPRESSION D'UN PROGRAMME
-
-
         FenetreVariables::donneInstance()->updateTab();
         FenetreProgrammes::donneInstance()->updateTab();
     }

@@ -45,7 +45,7 @@ ClavierVariables::ClavierVariables(QWidget* parent) {
     connect(egal, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* notegal = new QPushButton("!=");
     connect(notegal, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
-    QPushButton* infegal = new QPushButton("=<");
+    QPushButton* infegal = new QPushButton("<=");
     connect(infegal, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
     QPushButton* supegal = new QPushButton(">=");
     connect(supegal, SIGNAL(clicked()), parent, SLOT(clickOperateur()));
