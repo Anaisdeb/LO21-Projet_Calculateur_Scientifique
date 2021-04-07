@@ -13,6 +13,7 @@
   
 ## Contenu du répertoire
   
+  * Sujet.pdf : sujet du projet
   * Rapport.pdf : rendu du projet
   * CompUT.mp4 : démonstration de 10 min du fonctionnement de l'application
   * src : code
