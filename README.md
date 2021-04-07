@@ -23,3 +23,6 @@
 * Développer l’application Comp’UT : un calculateur scientifique.
 * Permettre de faire des calculs, de stocker et de manipuler des variables et des programmes.
 * Utiliser la notation RPN (Reverse Polish Notation), une méthode de notation mathématique permettant d’écrire une formule arithmétique sans utiliser de parenthèses.
+
+## Vidéo de présentation (10 min) :
+[![Watch the video](Demonstration.png)](https://www.youtube.com/watch?v=mkQYJC3-NC0)
