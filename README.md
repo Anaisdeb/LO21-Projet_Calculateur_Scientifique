@@ -1,4 +1,5 @@
 # LO21-Projet_Calculateur_Scientifique
+💡 Développement de l’application Comp’UT, un calculateur scientifique.
 📚 Projet de LO21 (Cours "Programmation et conception orientées objet" de l'Université de Technologie de Compiègne). 
 
 ## Composition de l'équipe de projet
@@ -9,7 +10,7 @@
   * Antoine Marquis
   * Aline Zhang
   
-  ## Contenu du répertoire
+## Contenu du répertoire
   
   * Rapport.pdf : rendu du projet
   * CompUT.mp4 : démonstration de 10 min du fonctionnement de l'application
