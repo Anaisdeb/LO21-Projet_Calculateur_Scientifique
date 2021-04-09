@@ -5,11 +5,11 @@
 
 ## Composition de l'équipe de projet
 
-  * Anaïs Débureaux
   * Thibaut Grall
   * Paul-Edouard Margerit
   * Antoine Marquis
   * Aline Zhang
+  * Anaïs Débureaux
   
 ## Contenu du répertoire
   
